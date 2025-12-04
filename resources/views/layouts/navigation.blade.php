@@ -155,10 +155,13 @@
                     </x-slot>
                 </x-dropdown>
                 @else
+                    {{-- Tạm tắt nút login/register vì chưa có auth routes
+
                 <div class="flex items-center gap-3">
                     <a href="{{ route('login') }}" class="text-sm text-gray-700 hover:underline">Login</a>
                     <a href="{{ route('register') }}" class="text-sm text-indigo-600 hover:underline">Register</a>
                 </div>
+                --}}
                 @endauth
             </div>
 
@@ -304,6 +307,7 @@
                 </form>
             </div>
             @else
+            {{--
             <div class="px-4">
                 <x-responsive-nav-link :href="route('login')">
                     {{ __('Login') }}
@@ -312,6 +316,7 @@
                     {{ __('Register') }}
                 </x-responsive-nav-link>
             </div>
+            --}}
             @endauth
         </div>
     </div>
