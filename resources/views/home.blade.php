@@ -425,5 +425,5 @@
         </section>
     </main>
 
-    @include('partials.wishlist-script')
+    {{-- @include('partials.wishlist-script') --}}
 </x-app-layout>
