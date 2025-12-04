@@ -63,7 +63,7 @@ Route::view('/faq', 'pages.faq')->name('faq');
 /**
  * Breeze auth routes (login/register/logout)
  */
-require __DIR__ . '/auth.php';
+// require __DIR__ . '/auth.php'; 
 
 /**
  * Authenticated user routes
