@@ -130,5 +130,5 @@ Tailwind theme to match landing page.
         </div>
     </section>
 
-    @include('partials.wishlist-script')
+    {{-- @include('partials.wishlist-script') --}}
 </x-app-layout>
