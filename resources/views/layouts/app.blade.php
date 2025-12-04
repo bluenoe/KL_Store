@@ -14,14 +14,16 @@
 
     <!-- Scripts -->
     @auth
-    <script>
-        window.__INITIAL_AVATAR_URL = @json(Auth:: user() -> avatarUrl());
-    </script>
+        <script>
+            window.__INITIAL_AVATAR_URL = @json(Auth::user()->avatarUrl());
+        </script>
     @endauth
     @php($cartQty = collect(session('cart', []))->sum('quantity'))
-    <script>window.__CART_COUNT = {{ (int) $cartQty }};</script>
+    <script>
+        window.__CART_COUNT = {{ (int) $cartQty }};
+    </script>
     @stack('head')
-{{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased">
@@ -31,11 +33,11 @@
 
         <!-- Page Heading -->
         @isset($header)
-        <header class="bg-warm border-b border-beige shadow-sm">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-ink">
-                {{ $header }}
-            </div>
-        </header>
+            <header class="bg-warm border-b border-beige shadow-sm">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-ink">
+                    {{ $header }}
+                </div>
+            </header>
         @endisset
 
         <!-- Page Content -->
