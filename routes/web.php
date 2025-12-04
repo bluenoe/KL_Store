@@ -29,7 +29,10 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
  * Public routes
  */
 // Landing page
-Route::get('/', [LandingController::class, 'index'])->name('home');
+Route::get('/', [LandingController::class, 'index'])->name('landing');
+
+// Shop home page
+Route::view('/home', 'home')->name('home');
 
 // Products listing + detail
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
@@ -60,7 +63,7 @@ Route::view('/faq', 'pages.faq')->name('faq');
 /**
  * Breeze auth routes (login/register/logout)
  */
-//require __DIR__ . '/auth.php';
+require __DIR__ . '/auth.php';
 
 /**
  * Authenticated user routes
