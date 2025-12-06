@@ -137,6 +137,41 @@ Route::prefix('admin')
 Route::redirect('/admin', '/admin/dashboard');
 
 
+
+
+// Test card
+
+Route::get('/test-card', function () {
+    $product = (object) [
+        'id' => 1,
+        'slug' => 'sample-product',
+        'name' => 'Sample Product Demo',
+        'price' => 199000,
+        'image' => 'demo.jpg',
+
+        // Những field card.blade.php đang sử dụng:
+        'is_on_sale'     => false,
+        'is_bestseller'  => false,
+        'is_new'         => false,
+
+        'category' => (object) [
+            'name' => 'T-Shirts'
+        ],
+
+        'short_description' => 'Demo card for BluShop — minimal, clean, elegant.',
+    ];
+
+    return view('test-card', compact('product'));
+});
+
+
+
+
+
+
+
+
+
 //Fall back to 404 for undefined routes
 Route::fallback(function () {
     // Trả về view 404 custom + status code 404
