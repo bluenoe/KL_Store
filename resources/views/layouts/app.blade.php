@@ -14,9 +14,9 @@
 
     <!-- Scripts -->
     @auth
-        <script>
+        {{-- <script>
             window.__INITIAL_AVATAR_URL = @json(Auth::user()->avatarUrl());
-        </script>
+        </script> --}}
     @endauth
     @php($cartQty = collect(session('cart', []))->sum('quantity'))
     <script>
