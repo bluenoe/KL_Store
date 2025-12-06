@@ -147,7 +147,7 @@ Route::get('/test-card', function () {
         'slug' => 'sample-product',
         'name' => 'Sample Product Demo',
         'price' => 199000,
-        'image' => 'demo.jpg',
+        'image' => 'blu_tshirt.jpg',
 
         // Những field card.blade.php đang sử dụng:
         'is_on_sale'     => false,
