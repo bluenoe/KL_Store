@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  # Dịch vụ Database (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: blushop_mysql
+    restart: always
+    ports:
+      - "3306:3306" # Mở cổng thùng ra ngoài máy thật
+    environment:
+      MYSQL_ROOT_PASSWORD: root # Mật khẩu root
+      MYSQL_DATABASE: blushop_db # Tên DB tự tạo lúc khởi động
+    volumes:
+      - db_data:/var/lib/mysql # Lưu dữ liệu bền vững
+
+volumes:
+  db_data:
