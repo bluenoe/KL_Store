@@ -7,7 +7,7 @@ services:
     container_name: klshop_mysql # Tên container MySQL cho KL
     restart: always
     ports:
-      - "3307:3306" # Tui dùng cổng 3307 để tránh xung đột với cổng 3306 của Blu
+      - "3307:3306" # Dùng cổng 3307 để tránh xung đột với cổng 3306 của Blu
     environment:
       MYSQL_ROOT_PASSWORD: root # Mật khẩu root
       MYSQL_DATABASE: klshop_db # Tên DB tự tạo lúc khởi động cho KL
