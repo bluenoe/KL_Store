@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use App\Models\Product;
 
 class ProductSeeder extends Seeder
 {
@@ -65,61 +67,61 @@ class ProductSeeder extends Seeder
             // ==== Sản phẩm mới ====
             [
                 'name' => 'Blu Water Bottle',
-                'description' => 'Bình nước Blu chất liệu inox 304 cao cấp, giữ nhiệt tốt, thiết kế logo Blu tối giản, tiện mang đi học, đi làm, hoặc tập gym.',
+                'description' => 'Bình nước Blu chất liệu inox 304 cao cấp...',
                 'price' => 129000,
                 'image' => 'blu_water_bottle.jpg',
             ],
             [
                 'name' => 'Blu Phone Case',
-                'description' => 'Ốp điện thoại Blu dẻo nhẹ, bảo vệ tốt, in logo Blu tinh tế, phù hợp với nhiều dòng máy phổ biến.',
+                'description' => 'Ốp điện thoại Blu dẻo nhẹ...',
                 'price' => 99000,
                 'image' => 'blu_phone_case.jpg',
             ],
             [
                 'name' => 'Blu Pencil Case',
-                'description' => 'Hộp bút Blu vải canvas bền, gọn nhẹ, nhiều ngăn tiện lợi, tông xanh đặc trưng của Blu.',
+                'description' => 'Hộp bút Blu vải canvas bền...',
                 'price' => 69000,
                 'image' => 'blu_pencil_case.jpg',
             ],
             [
                 'name' => 'Blu Umbrella',
-                'description' => 'Dù Blu gấp gọn, khung thép chống gió, lớp phủ chống UV, tay cầm in logo Blu.',
+                'description' => 'Dù Blu gấp gọn, chống UV...',
                 'price' => 179000,
                 'image' => 'blu_umbrella.jpg',
             ],
             [
                 'name' => 'Blu Blanket',
-                'description' => 'Chăn Blu siêu mềm, chất vải nỉ mịn, ấm áp, họa tiết logo Blu nhẹ nhàng cho không gian thư giãn.',
+                'description' => 'Chăn Blu siêu mềm...',
                 'price' => 299000,
                 'image' => 'blu_blanket.jpg',
             ],
             [
                 'name' => 'Blu Backpack',
-                'description' => 'Balo Blu chống nước, ngăn laptop riêng biệt, form đẹp, phối màu hiện đại, logo Blu nổi bật.',
+                'description' => 'Balo Blu chống nước...',
                 'price' => 349000,
                 'image' => 'blu_backpack.jpg',
             ],
             [
                 'name' => 'Blu Candle',
-                'description' => 'Nến thơm Blu hương lavender dễ chịu, lọ thủy tinh sang trọng, thắp sáng không gian học tập và làm việc.',
+                'description' => 'Nến thơm Blu hương lavender...',
                 'price' => 159000,
                 'image' => 'blu_candle.jpg',
             ],
             [
                 'name' => 'Blu Keychain',
-                'description' => 'Móc khóa Blu mini dễ thương, chất liệu cao su dẻo, in nổi logo Blu, phụ kiện nhỏ xinh cho balo và chìa khóa.',
+                'description' => 'Móc khóa Blu mini dễ thương...',
                 'price' => 39000,
                 'image' => 'blu_keychain.jpg',
             ],
             [
                 'name' => 'Blu Socks',
-                'description' => 'Vớ Blu cotton thoáng khí, thấm hút tốt, phối màu xanh - trắng nhẹ nhàng, thoải mái cả ngày.',
+                'description' => 'Vớ Blu cotton thoáng khí...',
                 'price' => 89000,
                 'image' => 'blu_socks.jpg',
             ],
             [
                 'name' => 'Blu Wireless Charger',
-                'description' => 'Sạc không dây Blu tốc độ cao, tương thích iPhone và Android, thiết kế tròn nhỏ gọn, đèn LED tinh tế.',
+                'description' => 'Sạc không dây Blu tốc độ cao...',
                 'price' => 259000,
                 'image' => 'blu_wireless_charger.jpg',
             ],
@@ -127,19 +129,34 @@ class ProductSeeder extends Seeder
 
         $categories = DB::table('categories')->pluck('id');
 
-        $data = array_map(fn ($item) => [
-            'name' => $item['name'],
-            'description' => $item['description'],
-            'price' => $item['price'],
-            'image' => $item['image'],
-            'category_id' => $categories->random(),
-            'is_new' => rand(0, 1),
-            'is_bestseller' => rand(0, 1),
-            'is_on_sale' => rand(0, 1),
-            'created_at' => $now,
-            'updated_at' => $now,
-        ], $items);
+        foreach ($items as $item) {
+            Product::updateOrCreate(
+                ['slug' => Str::slug($item['name'])], // đảm bảo không duplicate
+                [
+                    'name' => $item['name'],
+                    'description' => $item['description'],
+                    'price' => $item['price'],
 
-        DB::table('products')->insert($data);
+                    // NEW FIELDS ↓↓↓
+                    'slug' => Str::slug($item['name']),
+                    'sale_price' => rand(0, 1) ? $item['price'] - rand(5000, 30000) : $item['price'],
+
+                    // images: convert từ 1 image → array json
+                    'images' => json_encode([$item['image']]),
+
+                    'stock' => rand(20, 200),
+                    'sold_count' => rand(0, 500),
+
+                    'image' => $item['image'], // legacy
+                    'category_id' => $categories->random(),
+                    'is_new' => rand(0, 1),
+                    'is_bestseller' => rand(0, 1),
+                    'is_on_sale' => rand(0, 1),
+
+                    'updated_at' => $now,
+                    'created_at' => $now,
+                ]
+            );
+        }
     }
 }
